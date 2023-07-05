@@ -1,0 +1,31 @@
+pipeline {
+    environment {
+      dockerimagename = "vijaylokesh/my-tomcat"
+      registry_url = "https://registry.hub.docker.com"
+      registryCredential = 'dockerhub'
+      }
+      tools {
+          maven 'maven'
+      }
+      
+      agent {
+       label 'Build_server'
+    }
+    
+    stages {
+      stage('Cloning Git')
+       {
+        steps {
+           checkout scm
+        }
+      }
+    
+    }
+       stages ('Build Package') {
+        steps {
+            sh 'mvn clean package'
+           }
+      }
+    }
+}
+  
