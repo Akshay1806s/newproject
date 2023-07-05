@@ -9,13 +9,13 @@ pipeline {
     }
     
 	agent {
-     label 'Buld_server'
+     label 'Build_server'
   }
   
   stages {
     stage('Cloning Git') {
       steps {
-         git branch: 'main', url: 'https://github.com/Akshay1806s/newproject.git'
+         checkout scm
       }
 	}
 	
@@ -36,7 +36,7 @@ pipeline {
       steps{
         script {
           docker.withRegistry( registry_url, registryCredential ) {
-            //dockerImage.push("${env.BUILD_NUMBER}")
+            dockerImage.push("${env.BUILD_NUMBER}")
             dockerImage.push("latest")
           }
         }
