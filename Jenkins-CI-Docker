@@ -15,7 +15,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        checkout scm
+         git branch: 'main', url: 'https://github.com/Akshay1806s/newproject.git'
       }
 	}
 	
