@@ -1,0 +1,50 @@
+pipeline{
+
+	agent {label 'Build_server'}
+
+	environment {
+		DOCKERHUB_CREDENTIALS=credentials('dockerhub')
+	}
+
+	stages {
+	    
+	    stage('gitclone') {
+
+			steps {
+				checkout scm
+			}
+		}
+        stage ('Build Package') {
+      steps {
+          sh 'mvn clean package'
+         }
+       }
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t akshayarvinds/newdockerimage2:latest .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push akshayarvinds/newdockerimage2:latest'
+			}
+		}
+	}
+
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
+}
