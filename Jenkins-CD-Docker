@@ -1,6 +1,6 @@
 pipeline {
    agent {
-       label 'Build_server'
+       label 'deploy'
     }
     
     environment {
