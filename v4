@@ -26,7 +26,7 @@ pipeline{
 
 			steps {
 				withCredentials([usernameColonPassword(credentialsId: 'dockerhub', variable: 'dockerlogin')]) {
-                            sh "docker login $dockerlogin "
+                        sh ''' docker login $dockerlogin '''
 } 
 			}
 		}
