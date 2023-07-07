@@ -1,0 +1,45 @@
+pipeline{
+
+	agent {label 'Build_server'}
+
+	
+
+
+	stages {
+	    
+	    stage('gitclone') {
+
+			steps {
+				checkout scm
+			}
+		}
+
+		stage('Build') {
+
+			steps {
+				sh 'docker build -t akshayarvinds/newdockerimage:latest .'
+			}
+		}
+
+		stage('Login') {
+
+			steps {
+				sh 'docker login -u akshayarvinds -p Boss@8147'
+			}
+		}
+
+		stage('Push') {
+
+			steps {
+				sh 'docker push akshayarvinds/newdockerimage:latest'
+			}
+		}
+	}
+
+	post {
+		always {
+			sh 'docker logout'
+		}
+	}
+
+}
