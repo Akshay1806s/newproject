@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        label 'deploy'
+    }
+
+    environment {
+        dockerImageName = "akshayarvinds/my-tomcat:latest"
+        registryName = "registry.hub.docker.com"
+        registryUrl = "https://registry.hub.docker.com"
+        registryCredential = 'dockerhub'
+        containerName = "akshay-my-tomcat"
+    }
+
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Stop Previous Containers') {
+            steps {
+                script {
+                    sh "docker stop $containerName || true"
+                    sh "docker rm $containerName || true"
+                }
+            }
+        }
+
+        stage('Docker Run') {
+            steps {
+                script {
+                    docker.withRegistry(registryUrl, registryCredential) {
+                        def dockerImage = docker.image(dockerImageName)
+                        dockerImage.pull()
+
+                        sh "docker run -d -p 8080:8080 --rm --name $containerName $registryName/$dockerImageName"
+                    }
+                }
+            }
+        }
+    }
+}
