@@ -1,11 +1,7 @@
 pipeline{
 
 	agent {label 'Build_server'}
-
-	
-
-
-	stages {
+          stages {
 	    
 	    stage('gitclone') {
 
@@ -13,11 +9,16 @@ pipeline{
 				checkout scm
 			}
 		}
+              stage('Build') {
 
+			steps {
+				sh 'mvn clean pac'
+			}
+		}
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t akshayarvinds/newdockerimage:latest .'
+				sh 'mvn clean package.'
 			}
 		}
 
