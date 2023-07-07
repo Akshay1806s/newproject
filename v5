@@ -32,7 +32,7 @@ pipeline{
 		stage('Push') {
 
 			steps {
-				sh 'docker push akshayarvinds/newdockerimage:latest'
+				sh 'docker push akshayarvinds/test:latest'
 			}
 		}
 	}
