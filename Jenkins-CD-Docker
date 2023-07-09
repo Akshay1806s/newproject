@@ -4,7 +4,7 @@ pipeline {
     }
     
     environment {
-    dockerimagename = "akshayarvinds/arvinds"
+    dockerimagename = "akshayarvinds/arvinds:12"
     registry_name = "registry.hub.docker.com"
     registry_url = "https://registry.hub.docker.com"
     registryCredential = 'dockerhub'
