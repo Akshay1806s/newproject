@@ -18,7 +18,7 @@ pipeline{
 		stage('Build') {
 
 			steps {
-				sh 'docker build -t akshayarvinds/newdockerimage:latest .'
+				sh 'docker build -t akshayarvinds/devops:latest .'
 			}
 		}
 
